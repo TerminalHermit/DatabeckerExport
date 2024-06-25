@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Missing path as argument"
+    exit 1
+fi
+
+MDB_FILE="$1"
+OUTPUT_DIR="./out"
+mkdir -p $OUTPUT_DIR
+TABLES=$(mdb-tables -1 $MDB_FILE)
+
+for TABLE in $TABLES
+do
+    echo "Exporting $TABLE"
+    mdb-export $MDB_FILE $TABLE > "$OUTPUT_DIR/$TABLE.csv"
+done
